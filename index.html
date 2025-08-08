@@ -136,7 +136,7 @@
             display: none;
         }
 
-        /* Estilos do formulário de edição */
+        /* Estilos do painel de edição */
         .edit-panel {
             background: #f0f8ff;
             padding: 20px;
@@ -325,21 +325,13 @@
             .container {
                 margin: 10px;
             }
-            
             .print-container {
                 width: 100%;
                 min-height: auto;
             }
-            
             .datetime-group {
                 flex-direction: column;
             }
-        }
-
-        /* Melhorias para captura de tela */
-        .print-container.capturing {
-            transform: scale(1);
-            transform-origin: top left;
         }
     </style>
 </head>
@@ -356,11 +348,11 @@
         <!-- Painel de Edição -->
         <div class="edit-panel">
             <h3>🔧 Painel de Edição</h3>
-            
+
             <div id="message" class="message success" style="display: none;">
                 Anúncio atualizado com sucesso!
             </div>
-            
+
             <form id="editForm">
                 <div class="form-group">
                     <label>Cargos Disponíveis:</label>
@@ -380,7 +372,7 @@
                     </div>
                     <button type="button" class="btn-add" onclick="addCargo()">+ Adicionar Cargo</button>
                 </div>
-                
+
                 <div class="datetime-group">
                     <div class="form-group">
                         <label>Data da Entrevista:</label>
@@ -391,7 +383,7 @@
                         <input type="text" id="horario_entrevista" value="09:00hs" placeholder="HH:MMhs">
                     </div>
                 </div>
-                
+
                 <button type="submit" class="btn-update">Atualizar Anúncio</button>
                 <button type="button" class="btn-download" id="downloadBtn" onclick="downloadAsJPG()">
                     📥 Baixar como JPG (Alta Qualidade)
@@ -401,21 +393,16 @@
 
         <!-- Conteúdo para visualização -->
         <div class="print-container" id="capture-content">
-            <!-- Header com imagem -->
             <img src="header.jpg" alt="Cabeçalho Atacadão" class="header-image">
-
-            <!-- Content -->
             <div class="content">
                 <div class="description">
                     O maior atacadista do Brasil não para de crescer e quer profissionais dedicados para ajudar a contribuir com essa conquista.
                 </div>
-
                 <div class="job-positions" id="job-positions">
                     <div class="job-item">Operador de cartão</div>
                     <div class="job-item">Repositor de loja</div>
                     <div class="job-item">Auxiliar de Cozinha</div>
                 </div>
-
                 <div class="interview-info">
                     <div class="interview-date">
                         Entrevista dia <span id="display-data">14/07/2025</span> às<br>
@@ -428,8 +415,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Footer com imagem -->
             <img src="footer.jpg" alt="Rodapé Atacadão" class="footer-image">
         </div>
     </div>
@@ -455,13 +440,11 @@
             }
         }
 
-        // Função para atualizar o anúncio
         function updateAnnouncement() {
-            // Atualizar cargos
             const cargosInputs = document.querySelectorAll('input[name="cargos[]"]');
             const jobPositions = document.getElementById('job-positions');
             jobPositions.innerHTML = '';
-            
+
             cargosInputs.forEach(input => {
                 if (input.value.trim()) {
                     const jobItem = document.createElement('div');
@@ -471,15 +454,9 @@
                 }
             });
 
-            // Atualizar data
-            const dataInput = document.getElementById('data_entrevista');
-            document.getElementById('display-data').textContent = dataInput.value;
+            document.getElementById('display-data').textContent = document.getElementById('data_entrevista').value;
+            document.getElementById('display-horario').textContent = document.getElementById('horario_entrevista').value;
 
-            // Atualizar horário
-            const horarioInput = document.getElementById('horario_entrevista');
-            document.getElementById('display-horario').textContent = horarioInput.value;
-
-            // Mostrar mensagem de sucesso
             const message = document.getElementById('message');
             message.style.display = 'block';
             setTimeout(() => {
@@ -487,47 +464,42 @@
             }, 3000);
         }
 
-        // Função para baixar como JPG em alta qualidade
         async function downloadAsJPG() {
             const loadingOverlay = document.getElementById('loadingOverlay');
             const downloadBtn = document.getElementById('downloadBtn');
             const element = document.getElementById('capture-content');
-            
+
             try {
-                // Mostrar loading
                 loadingOverlay.style.display = 'flex';
                 downloadBtn.disabled = true;
                 downloadBtn.textContent = 'Gerando...';
 
-                // Aguardar um momento para garantir que o loading apareça
                 await new Promise(resolve => setTimeout(resolve, 100));
 
-                // Configurações para alta qualidade
-                const options = {
-                    scale: 3, // Aumenta a resolução 3x
+                const canvasOriginal = await html2canvas(element, {
+                    scale: 3,
                     useCORS: true,
-                    allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    width: element.offsetWidth,
-                    height: element.offsetHeight,
-                    scrollX: 0,
-                    scrollY: 0,
-                    windowWidth: element.offsetWidth,
-                    windowHeight: element.offsetHeight
-                };
+                    backgroundColor: '#ffffff'
+                });
 
-                // Capturar o elemento
-                const canvas = await html2canvas(element, options);
-                
-                // Converter para JPG com qualidade máxima
-                const dataURL = canvas.toDataURL('image/jpeg', 0.95);
-                
-                // Criar link de download
+                const finalCanvas = document.createElement('canvas');
+                finalCanvas.width = 1080;
+                finalCanvas.height = 1920;
+                const ctx = finalCanvas.getContext('2d');
+
+                const scale = Math.min(finalCanvas.width / canvasOriginal.width, finalCanvas.height / canvasOriginal.height);
+                const x = (finalCanvas.width / 2) - (canvasOriginal.width * scale / 2);
+                const y = (finalCanvas.height / 2) - (canvasOriginal.height * scale / 2);
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, finalCanvas.width, finalCanvas.height);
+                ctx.drawImage(canvasOriginal, x, y, canvasOriginal.width * scale, canvasOriginal.height * scale);
+
+                const dataURL = finalCanvas.toDataURL('image/jpeg', 0.95);
+
                 const link = document.createElement('a');
                 link.download = `atacadao-vagas-${new Date().toISOString().split('T')[0]}.jpg`;
                 link.href = dataURL;
-                
-                // Fazer download
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
@@ -536,65 +508,40 @@
                 console.error('Erro ao gerar imagem:', error);
                 alert('Erro ao gerar a imagem. Tente novamente.');
             } finally {
-                // Esconder loading e restaurar botão
                 loadingOverlay.style.display = 'none';
                 downloadBtn.disabled = false;
                 downloadBtn.innerHTML = '📥 Baixar como JPG (Alta Qualidade)';
             }
         }
 
-        // Event listener para o formulário
         document.getElementById('editForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const cargos = document.querySelectorAll('input[name="cargos[]"]');
             let hasValidCargo = false;
-            
             cargos.forEach(function(input) {
                 if (input.value.trim() !== '') {
                     hasValidCargo = true;
                 }
             });
-            
             if (!hasValidCargo) {
                 alert('Por favor, preencha pelo menos um cargo.');
                 return false;
             }
-            
             updateAnnouncement();
         });
 
-        // Auto-formatação de data
         document.getElementById('data_entrevista').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0,2) + '/' + value.substring(2);
-            }
-            if (value.length >= 5) {
-                value = value.substring(0,5) + '/' + value.substring(5,9);
-            }
+            if (value.length >= 2) value = value.substring(0,2) + '/' + value.substring(2);
+            if (value.length >= 5) value = value.substring(0,5) + '/' + value.substring(5,9);
             e.target.value = value;
         });
 
-        // Auto-formatação de horário
         document.getElementById('horario_entrevista').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0,2) + ':' + value.substring(2,4);
-            }
-            if (value.length > 4) {
-                value = value.substring(0,5) + 'hs';
-            }
+            if (value.length >= 2) value = value.substring(0,2) + ':' + value.substring(2,4);
+            if (value.length > 4) value = value.substring(0,5) + 'hs';
             e.target.value = value;
-        });
-
-        // Verificar se html2canvas carregou corretamente
-        window.addEventListener('load', function() {
-            if (typeof html2canvas === 'undefined') {
-                console.error('html2canvas não foi carregado');
-                document.getElementById('downloadBtn').disabled = true;
-                document.getElementById('downloadBtn').innerHTML = '❌ Erro ao carregar biblioteca';
-            }
         });
     </script>
 </body>
