@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Passagens</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+        color: #667eea;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2em;
+    }
+
+    .add-person-form {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+        font-weight: 600;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background: #5568d3;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+        background: #28a745;
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .btn-success:hover {
+        background: #218838;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+
+    .people-list {
+        display: grid;
+        gap: 20px;
+    }
+
+    .person-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        border-radius: 15px;
+        color: white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .person-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .person-name {
+        font-size: 1.4em;
+        font-weight: 700;
+    }
+
+    .person-info {
+        background: rgba(255,255,255,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 1.1em;
+    }
+
+    .info-row:last-child {
+        margin-bottom: 0;
+    }
+
+    .total-value {
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #ffd700;
+    }
+
+    .person-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+    }
+
+    .empty-state svg {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 20px;
+        opacity: 0.3;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 1.5em;
+        }
+
+        .person-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <h1>🚗 Contador de Passagens</h1>
+
+```
+    <div class="add-person-form">
+        <h2 style="margin-bottom: 15px; color: #667eea;">Adicionar Integrante</h2>
+        <div class="form-group">
+            <label for="personName">Nome do Integrante</label>
+            <input type="text" id="personName" placeholder="Digite o nome">
+        </div>
+        <div class="form-group">
+            <label for="rideValue">Valor da Passagem (R$)</label>
+            <input type="number" id="rideValue" placeholder="Ex: 5.00" step="0.01" min="0">
+        </div>
+        <button class="btn btn-primary" onclick="addPerson()">Adicionar Integrante</button>
+    </div>
+
+    <div id="peopleList" class="people-list"></div>
+</div>
+
+<script>
+    let people = [];
+
+    function loadData() {
+        const saved = localStorage.getItem('rideCounter');
+        if (saved) {
+            people = JSON.parse(saved);
+            renderPeople();
+        }
+    }
+
+    function saveData() {
+        localStorage.setItem('rideCounter', JSON.stringify(people));
+    }
+
+    function addPerson() {
+        const name = document.getElementById('personName').value.trim();
+        const value = parseFloat(document.getElementById('rideValue').value);
+
+        if (!name) {
+            alert('Por favor, digite o nome do integrante');
+            return;
+        }
+
+        if (!value || value <= 0) {
+            alert('Por favor, digite um valor válido para a passagem');
+            return;
+        }
+
+        people.push({
+            id: Date.now(),
+            name: name,
+            rideValue: value,
+            rides: 0,
+            total: 0
+        });
+
+        document.getElementById('personName').value = '';
+        document.getElementById('rideValue').value = '';
+
+        saveData();
+        renderPeople();
+    }
+
+    function addRide(id) {
+        const person = people.find(p => p.id === id);
+        if (person) {
+            person.rides++;
+            person.total = person.rides * person.rideValue;
+            saveData();
+            renderPeople();
+        }
+    }
+
+    function removePerson(id) {
+        if (confirm('Tem certeza que deseja remover este integrante?')) {
+            people = people.filter(p => p.id !== id);
+            saveData();
+            renderPeople();
+        }
+    }
+
+    function renderPeople() {
+        const container = document.getElementById('peopleList');
+        
+        if (people.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    <h3>Nenhum integrante cadastrado</h3>
+                    <p>Adicione um integrante acima para começar a contabilizar as passagens</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = people.map(person => `
+            <div class="person-card">
+                <div class="person-header">
+                    <div class="person-name">${person.name}</div>
+                    <button class="btn btn-danger" onclick="removePerson(${person.id})">Remover</button>
+                </div>
+                <div class="person-info">
+                    <div class="info-row">
+                        <span>Valor da Passagem:</span>
+                        <span>R$ ${person.rideValue.toFixed(2)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Quantidade de Viagens:</span>
+                        <span>${person.rides}</span>
+                    </div>
+                    <div class="info-row">
+                        <span>Total a Pagar:</span>
+                        <span class="total-value">R$ ${person.total.toFixed(2)}</span>
+                    </div>
+                </div>
+                <div class="person-actions">
+                    <button class="btn btn-success" onclick="addRide(${person.id})">➕ Adicionar Viagem</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    loadData();
+    renderPeople();
+</script>
+```
+
+</body>
+</html>
