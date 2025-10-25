@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contador de Passagens</title>
+    <title>Controle de Apostas</title>
     <style>
         * {
             margin: 0;
@@ -18,181 +18,289 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         min-height: 100vh;
         padding: 20px;
+        color: #333;
     }
 
     .container {
-        max-width: 800px;
+        max-width: 500px;
         margin: 0 auto;
+    }
+
+    .card {
         background: white;
         border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
     h1 {
-        color: #667eea;
+        color: #2d3748;
         text-align: center;
-        margin-bottom: 30px;
-        font-size: 2em;
+        margin-bottom: 10px;
+        font-size: 24px;
     }
 
-    .add-person-form {
-        background: #f8f9fa;
+    .subtitle {
+        text-align: center;
+        color: #718096;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .balance-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .balance-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         padding: 20px;
         border-radius: 15px;
-        margin-bottom: 30px;
+        text-align: center;
+        color: white;
     }
 
-    .form-group {
+    .balance-card.positive {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .balance-card.negative {
+        background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    }
+
+    .balance-label {
+        font-size: 12px;
+        opacity: 0.9;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .balance-value {
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .result-card {
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .result-card.profit {
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+    }
+
+    .result-card.loss {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    }
+
+    .result-label {
+        font-size: 14px;
+        color: #2d3748;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .result-value {
+        font-size: 32px;
+        font-weight: bold;
+        color: #2d3748;
+    }
+
+    .character-section {
+        background: #fff3cd;
+        border-left: 5px solid #ffc107;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .character-section.show {
+        display: block;
+        animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .character {
+        font-size: 60px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .message {
+        color: #856404;
+        text-align: center;
+        font-size: 16px;
+        line-height: 1.6;
+        font-weight: 500;
+    }
+
+    .alert-section {
+        background: #d1ecf1;
+        border-left: 5px solid #17a2b8;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+    .alert-section.show {
+        display: block;
+        animation: slideIn 0.5s ease;
+    }
+
+    .alert-icon {
+        font-size: 40px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .alert-message {
+        color: #0c5460;
+        text-align: center;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    .input-group {
         margin-bottom: 15px;
     }
 
     label {
         display: block;
-        margin-bottom: 5px;
-        color: #333;
+        margin-bottom: 8px;
+        color: #4a5568;
         font-weight: 600;
+        font-size: 14px;
     }
 
     input {
         width: 100%;
-        padding: 12px;
-        border: 2px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 16px;
-        transition: border-color 0.3s;
+        padding: 15px;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        font-size: 18px;
+        transition: all 0.3s;
     }
 
     input:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
     }
 
-    .btn {
-        padding: 12px 24px;
+    .button-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    button {
+        padding: 15px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: bold;
         cursor: pointer;
         transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    .btn-primary {
-        background: #667eea;
+    .btn-deposit {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
-        width: 100%;
     }
 
-    .btn-primary:hover {
-        background: #5568d3;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-
-    .btn-success {
-        background: #28a745;
+    .btn-withdraw {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         color: white;
-        padding: 8px 16px;
-        font-size: 14px;
     }
 
-    .btn-success:hover {
-        background: #218838;
+    .btn-reset {
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #2d3748;
+        grid-column: 1 / -1;
     }
 
-    .btn-danger {
-        background: #dc3545;
-        color: white;
-        padding: 6px 12px;
-        font-size: 14px;
+    button:active {
+        transform: scale(0.98);
     }
 
-    .btn-danger:hover {
-        background: #c82333;
+    .history {
+        margin-top: 10px;
     }
 
-    .people-list {
-        display: grid;
-        gap: 20px;
-    }
-
-    .person-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 20px;
-        border-radius: 15px;
-        color: white;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .person-header {
+    .history-item {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
+        padding: 12px;
+        background: #f7fafc;
+        margin-bottom: 8px;
+        border-radius: 8px;
+        border-left: 4px solid #4299e1;
     }
 
-    .person-name {
-        font-size: 1.4em;
-        font-weight: 700;
+    .history-item.deposit {
+        border-left-color: #f5576c;
     }
 
-    .person-info {
-        background: rgba(255,255,255,0.2);
+    .history-item.withdraw {
+        border-left-color: #00f2fe;
+    }
+
+    .history-type {
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .history-value {
+        font-weight: bold;
+        color: #2d3748;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .stat-item {
+        background: #edf2f7;
         padding: 15px;
         border-radius: 10px;
-        margin-bottom: 15px;
-    }
-
-    .info-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        font-size: 1.1em;
-    }
-
-    .info-row:last-child {
-        margin-bottom: 0;
-    }
-
-    .total-value {
-        font-size: 1.5em;
-        font-weight: 700;
-        color: #ffd700;
-    }
-
-    .person-actions {
-        display: flex;
-        gap: 10px;
-    }
-
-    .empty-state {
         text-align: center;
-        padding: 60px 20px;
-        color: #999;
     }
 
-    .empty-state svg {
-        width: 100px;
-        height: 100px;
-        margin-bottom: 20px;
-        opacity: 0.3;
+    .stat-label {
+        font-size: 12px;
+        color: #718096;
+        margin-bottom: 5px;
+        text-transform: uppercase;
     }
 
-    @media (max-width: 600px) {
-        .container {
-            padding: 20px;
-        }
-
-        h1 {
-            font-size: 1.5em;
-        }
-
-        .person-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
+    .stat-value {
+        font-size: 20px;
+        font-weight: bold;
+        color: #2d3748;
     }
 </style>
 ```
@@ -200,132 +308,235 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚗 Contador de Passagens</h1>
+        <div class="card">
+            <h1>💰 Controle de Apostas</h1>
+            <p class="subtitle">Pare, pense e reflita sobre seus gastos</p>
 
 ```
-    <div class="add-person-form">
-        <h2 style="margin-bottom: 15px; color: #667eea;">Adicionar Integrante</h2>
-        <div class="form-group">
-            <label for="personName">Nome do Integrante</label>
-            <input type="text" id="personName" placeholder="Digite o nome">
+        <div class="balance-section">
+            <div class="balance-card negative">
+                <div class="balance-label">Depositado</div>
+                <div class="balance-value" id="totalDeposit">R$ 0</div>
+            </div>
+            <div class="balance-card positive">
+                <div class="balance-label">Sacado</div>
+                <div class="balance-value" id="totalWithdraw">R$ 0</div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="rideValue">Valor da Passagem (R$)</label>
-            <input type="number" id="rideValue" placeholder="Ex: 5.00" step="0.01" min="0">
+
+        <div class="result-card" id="resultCard">
+            <div class="result-label" id="resultLabel">Saldo Atual</div>
+            <div class="result-value" id="resultValue">R$ 0,00</div>
         </div>
-        <button class="btn btn-primary" onclick="addPerson()">Adicionar Integrante</button>
+
+        <div class="character-section" id="characterSection">
+            <div class="character">🛑</div>
+            <div class="message" id="characterMessage"></div>
+        </div>
+
+        <div class="alert-section" id="alertSection">
+            <div class="alert-icon">💡</div>
+            <div class="alert-message" id="alertMessage"></div>
+        </div>
+
+        <div class="input-group">
+            <label>Valor (R$)</label>
+            <input type="number" id="valueInput" placeholder="0,00" step="0.01" min="0">
+        </div>
+
+        <div class="button-group">
+            <button class="btn-deposit" onclick="addDeposit()">+ Depósito</button>
+            <button class="btn-withdraw" onclick="addWithdraw()">+ Saque</button>
+            <button class="btn-reset" onclick="resetData()">🔄 Resetar Tudo</button>
+        </div>
     </div>
 
-    <div id="peopleList" class="people-list"></div>
+    <div class="card">
+        <h2 style="font-size: 18px; margin-bottom: 15px; color: #2d3748;">📊 Estatísticas</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Total de Depósitos</div>
+                <div class="stat-value" id="depositCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Total de Saques</div>
+                <div class="stat-value" id="withdrawCount">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Média Depósito</div>
+                <div class="stat-value" id="avgDeposit">R$ 0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Média Saque</div>
+                <div class="stat-value" id="avgWithdraw">R$ 0</div>
+            </div>
+        </div>
+
+        <div class="history">
+            <h3 style="font-size: 16px; margin: 20px 0 10px; color: #2d3748;">📝 Histórico Recente</h3>
+            <div id="historyList"></div>
+        </div>
+    </div>
 </div>
 
 <script>
-    let people = [];
+    let deposits = [];
+    let withdraws = [];
+
+    const lossMessages = [
+        "⚠️ Você já perdeu mais do que ganhou. É hora de PARAR e pensar no que realmente importa!",
+        "🛑 Cada real perdido é um passo para trás. Sua família precisa de você presente, não perdido em apostas!",
+        "💔 O dinheiro que você está perdendo poderia estar construindo seu futuro. PARE AGORA!",
+        "🚨 Você está no prejuízo! Não deixe que isso se torne um buraco sem fim. PARE!",
+        "⛔ Quanto mais você insiste, mais você perde. Reconheça isso e tenha coragem de PARAR!",
+        "🙏 Sua saúde mental vale mais que qualquer aposta. É hora de buscar ajuda e PARAR!",
+        "💪 Ser forte é reconhecer o problema e PARAR antes que seja tarde demais!",
+        "🏠 Pense em tudo que você pode fazer com esse dinheiro. Casa própria, viagem, investimento. PARE!"
+    ];
+
+    const profitMessages = [
+        "✋ Você está ganhando AGORA, mas a casa sempre vence no final. Saia enquanto está na frente!",
+        "🎯 O momento perfeito para parar é quando você está ganhando. Não teste sua sorte!",
+        "💰 Você teve sorte hoje, mas amanhã pode ser diferente. Guarde esse dinheiro e PARE!",
+        "🌟 Ganhar é bom, mas PARAR no momento certo é ainda melhor. Não jogue fora sua vitória!",
+        "🔔 A ganância é o maior inimigo do apostador. Você ganhou, agora PARE e aproveite!",
+        "⭐ Parabéns pelo ganho! Mas lembre-se: a sorte não dura para sempre. Preserve seu dinheiro!",
+        "🎊 Você está em vantagem! Mas 90% dos apostadores perdem tudo de volta. Seja diferente, PARE!",
+        "🛡️ Proteja seus ganhos! A única forma de garantir que não vai perder é PARANDO agora!"
+    ];
 
     function loadData() {
-        const saved = localStorage.getItem('rideCounter');
+        const saved = localStorage.getItem('betTracker');
         if (saved) {
-            people = JSON.parse(saved);
-            renderPeople();
+            const data = JSON.parse(saved);
+            deposits = data.deposits || [];
+            withdraws = data.withdraws || [];
         }
+        updateDisplay();
     }
 
     function saveData() {
-        localStorage.setItem('rideCounter', JSON.stringify(people));
+        localStorage.setItem('betTracker', JSON.stringify({ deposits, withdraws }));
     }
 
-    function addPerson() {
-        const name = document.getElementById('personName').value.trim();
-        const value = parseFloat(document.getElementById('rideValue').value);
-
-        if (!name) {
-            alert('Por favor, digite o nome do integrante');
-            return;
-        }
-
-        if (!value || value <= 0) {
-            alert('Por favor, digite um valor válido para a passagem');
-            return;
-        }
-
-        people.push({
-            id: Date.now(),
-            name: name,
-            rideValue: value,
-            rides: 0,
-            total: 0
-        });
-
-        document.getElementById('personName').value = '';
-        document.getElementById('rideValue').value = '';
-
-        saveData();
-        renderPeople();
-    }
-
-    function addRide(id) {
-        const person = people.find(p => p.id === id);
-        if (person) {
-            person.rides++;
-            person.total = person.rides * person.rideValue;
+    function addDeposit() {
+        const value = parseFloat(document.getElementById('valueInput').value);
+        if (value && value > 0) {
+            deposits.push({ value, date: new Date().toLocaleString('pt-BR') });
             saveData();
-            renderPeople();
+            updateDisplay();
+            document.getElementById('valueInput').value = '';
+        } else {
+            alert('Por favor, insira um valor válido!');
         }
     }
 
-    function removePerson(id) {
-        if (confirm('Tem certeza que deseja remover este integrante?')) {
-            people = people.filter(p => p.id !== id);
+    function addWithdraw() {
+        const value = parseFloat(document.getElementById('valueInput').value);
+        if (value && value > 0) {
+            withdraws.push({ value, date: new Date().toLocaleString('pt-BR') });
             saveData();
-            renderPeople();
+            updateDisplay();
+            document.getElementById('valueInput').value = '';
+        } else {
+            alert('Por favor, insira um valor válido!');
         }
     }
 
-    function renderPeople() {
-        const container = document.getElementById('peopleList');
+    function resetData() {
+        if (confirm('Tem certeza que deseja resetar todos os dados?')) {
+            deposits = [];
+            withdraws = [];
+            saveData();
+            updateDisplay();
+        }
+    }
+
+    function updateDisplay() {
+        const totalDep = deposits.reduce((sum, d) => sum + d.value, 0);
+        const totalWith = withdraws.reduce((sum, w) => sum + w.value, 0);
+        const balance = totalWith - totalDep;
+
+        document.getElementById('totalDeposit').textContent = `R$ ${totalDep.toFixed(2)}`;
+        document.getElementById('totalWithdraw').textContent = `R$ ${totalWith.toFixed(2)}`;
+
+        const resultCard = document.getElementById('resultCard');
+        const resultLabel = document.getElementById('resultLabel');
+        const resultValue = document.getElementById('resultValue');
+
+        if (balance >= 0) {
+            resultCard.className = 'result-card profit';
+            resultLabel.textContent = '✅ Você está no Lucro';
+            resultValue.textContent = `R$ ${balance.toFixed(2)}`;
+        } else {
+            resultCard.className = 'result-card loss';
+            resultLabel.textContent = '❌ Você está no Prejuízo';
+            resultValue.textContent = `R$ ${Math.abs(balance).toFixed(2)}`;
+        }
+
+        // Mostrar mensagem do boneco
+        const characterSection = document.getElementById('characterSection');
+        const characterMessage = document.getElementById('characterMessage');
         
-        if (people.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <h3>Nenhum integrante cadastrado</h3>
-                    <p>Adicione um integrante acima para começar a contabilizar as passagens</p>
-                </div>
-            `;
-            return;
+        if (balance < 0) {
+            characterSection.classList.add('show');
+            const randomMsg = lossMessages[Math.floor(Math.random() * lossMessages.length)];
+            characterMessage.textContent = randomMsg;
+        } else if (balance > 0) {
+            characterSection.classList.add('show');
+            characterSection.style.background = '#d1ecf1';
+            characterSection.style.borderLeftColor = '#17a2b8';
+            const randomMsg = profitMessages[Math.floor(Math.random() * profitMessages.length)];
+            characterMessage.textContent = randomMsg;
+            characterMessage.style.color = '#0c5460';
+        } else {
+            characterSection.classList.remove('show');
         }
 
-        container.innerHTML = people.map(person => `
-            <div class="person-card">
-                <div class="person-header">
-                    <div class="person-name">${person.name}</div>
-                    <button class="btn btn-danger" onclick="removePerson(${person.id})">Remover</button>
+        // Sempre mostrar alerta
+        const alertSection = document.getElementById('alertSection');
+        const alertMessage = document.getElementById('alertMessage');
+        alertSection.classList.add('show');
+        alertMessage.textContent = '⚠️ Lembre-se: A casa sempre tem vantagem. O único jeito de não perder é NÃO JOGAR!';
+
+        // Estatísticas
+        document.getElementById('depositCount').textContent = deposits.length;
+        document.getElementById('withdrawCount').textContent = withdraws.length;
+        
+        const avgDep = deposits.length > 0 ? totalDep / deposits.length : 0;
+        const avgWith = withdraws.length > 0 ? totalWith / withdraws.length : 0;
+        
+        document.getElementById('avgDeposit').textContent = `R$ ${avgDep.toFixed(2)}`;
+        document.getElementById('avgWithdraw').textContent = `R$ ${avgWith.toFixed(2)}`;
+
+        // Histórico
+        updateHistory();
+    }
+
+    function updateHistory() {
+        const historyList = document.getElementById('historyList');
+        const allTransactions = [
+            ...deposits.map(d => ({ type: 'Depósito', value: d.value, date: d.date, class: 'deposit' })),
+            ...withdraws.map(w => ({ type: 'Saque', value: w.value, date: w.date, class: 'withdraw' }))
+        ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+
+        historyList.innerHTML = allTransactions.map(t => `
+            <div class="history-item ${t.class}">
+                <div>
+                    <div class="history-type">${t.type}</div>
+                    <div style="font-size: 11px; color: #718096;">${t.date}</div>
                 </div>
-                <div class="person-info">
-                    <div class="info-row">
-                        <span>Valor da Passagem:</span>
-                        <span>R$ ${person.rideValue.toFixed(2)}</span>
-                    </div>
-                    <div class="info-row">
-                        <span>Quantidade de Viagens:</span>
-                        <span>${person.rides}</span>
-                    </div>
-                    <div class="info-row">
-                        <span>Total a Pagar:</span>
-                        <span class="total-value">R$ ${person.total.toFixed(2)}</span>
-                    </div>
-                </div>
-                <div class="person-actions">
-                    <button class="btn btn-success" onclick="addRide(${person.id})">➕ Adicionar Viagem</button>
-                </div>
+                <div class="history-value">R$ ${t.value.toFixed(2)}</div>
             </div>
         `).join('');
+
+        if (allTransactions.length === 0) {
+            historyList.innerHTML = '<p style="text-align: center; color: #718096; padding: 20px;">Nenhuma transação ainda</p>';
+        }
     }
 
     loadData();
-    renderPeople();
 </script>
 ```
 
