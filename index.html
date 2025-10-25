@@ -12,12 +12,13 @@
             box-sizing: border-box;
         }
 
+```
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        background: #0a0a0a;
         min-height: 100vh;
         padding: 20px;
-        color: #e2e8f0;
+        color: #ffd700;
     }
 
     .container {
@@ -26,24 +27,25 @@
     }
 
     .card {
-        background: #1a202c;
+        background: #1a1a1a;
         border-radius: 20px;
         padding: 25px;
         margin-bottom: 20px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        border: 1px solid #2d3748;
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        border: 2px solid #333;
     }
 
     h1 {
-        color: #f7fafc;
+        color: #ffd700;
         text-align: center;
         margin-bottom: 10px;
         font-size: 24px;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
     }
 
     .subtitle {
         text-align: center;
-        color: #a0aec0;
+        color: #999;
         font-size: 14px;
         margin-bottom: 20px;
     }
@@ -52,59 +54,65 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 15px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     .balance-card {
-        background: linear-gradient(135deg, #fc466b 0%, #3f5efb 100%);
-        padding: 20px;
+        background: #1a1a1a;
+        padding: 15px;
         border-radius: 15px;
         text-align: center;
-        color: white;
-        border: 1px solid rgba(255,255,255,0.1);
+        color: #ffd700;
+        border: 2px solid #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
     }
 
     .balance-card.positive {
-        background: linear-gradient(135deg, #0093e9 0%, #80d0c7 100%);
+        border-color: #00ff00;
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        color: #00ff00;
     }
 
     .balance-card.negative {
-        background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
+        border-color: #ff4444;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+        color: #ff4444;
     }
 
     .balance-label {
-        font-size: 12px;
-        opacity: 0.9;
+        font-size: 11px;
+        opacity: 0.8;
         margin-bottom: 5px;
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
     .balance-value {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: bold;
     }
 
     .result-card {
-        padding: 20px;
+        padding: 15px;
         border-radius: 15px;
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        background: #1a1a1a;
     }
 
     .result-card.profit {
-        background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
-        color: white;
+        border: 2px solid #00ff00;
+        box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
     }
 
     .result-card.loss {
-        background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-        color: white;
+        border: 2px solid #ff4444;
+        box-shadow: 0 0 20px rgba(255, 68, 68, 0.4);
     }
 
     .result-label {
-        font-size: 14px;
-        color: rgba(255,255,255,0.9);
+        font-size: 13px;
+        color: #999;
         margin-bottom: 5px;
         font-weight: 600;
     }
@@ -112,12 +120,13 @@
     .result-value {
         font-size: 32px;
         font-weight: bold;
-        color: white;
+        color: #ffd700;
+        text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
     }
 
     .character-section {
-        background: #2d3748;
-        border-left: 5px solid #f6ad55;
+        background: #fff3cd;
+        border-left: 5px solid #ffc107;
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -147,7 +156,7 @@
     }
 
     .message {
-        color: #fbd38d;
+        color: #856404;
         text-align: center;
         font-size: 16px;
         line-height: 1.6;
@@ -155,8 +164,8 @@
     }
 
     .alert-section {
-        background: #2c5282;
-        border-left: 5px solid #63b3ed;
+        background: #d1ecf1;
+        border-left: 5px solid #17a2b8;
         padding: 20px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -175,7 +184,7 @@
     }
 
     .alert-message {
-        color: #bee3f8;
+        color: #0c5460;
         text-align: center;
         font-size: 15px;
         line-height: 1.5;
@@ -188,7 +197,7 @@
     label {
         display: block;
         margin-bottom: 8px;
-        color: #cbd5e0;
+        color: #4a5568;
         font-weight: 600;
         font-size: 14px;
     }
@@ -196,18 +205,16 @@
     input {
         width: 100%;
         padding: 15px;
-        border: 2px solid #4a5568;
+        border: 2px solid #e2e8f0;
         border-radius: 10px;
         font-size: 18px;
         transition: all 0.3s;
-        background: #2d3748;
-        color: #e2e8f0;
     }
 
     input:focus {
         outline: none;
-        border-color: #63b3ed;
-        box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.2);
+        border-color: #4299e1;
+        box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
     }
 
     .button-group {
@@ -230,18 +237,18 @@
     }
 
     .btn-deposit {
-        background: linear-gradient(135deg, #f46b45 0%, #eea849 100%);
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
     }
 
     .btn-withdraw {
-        background: linear-gradient(135deg, #0093e9 0%, #80d0c7 100%);
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         color: white;
     }
 
     .btn-reset {
-        background: linear-gradient(135deg, #434343 0%, #000000 100%);
-        color: white;
+        background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        color: #2d3748;
         grid-column: 1 / -1;
     }
 
@@ -257,28 +264,28 @@
         display: flex;
         justify-content: space-between;
         padding: 12px;
-        background: #2d3748;
+        background: #f7fafc;
         margin-bottom: 8px;
         border-radius: 8px;
-        border-left: 4px solid #63b3ed;
+        border-left: 4px solid #4299e1;
     }
 
     .history-item.deposit {
-        border-left-color: #f6ad55;
+        border-left-color: #f5576c;
     }
 
     .history-item.withdraw {
-        border-left-color: #4fd1c5;
+        border-left-color: #00f2fe;
     }
 
     .history-type {
         font-weight: 600;
-        color: #e2e8f0;
+        color: #2d3748;
     }
 
     .history-value {
         font-weight: bold;
-        color: #e2e8f0;
+        color: #2d3748;
     }
 
     .stats-grid {
@@ -289,16 +296,15 @@
     }
 
     .stat-item {
-        background: #2d3748;
+        background: #edf2f7;
         padding: 15px;
         border-radius: 10px;
         text-align: center;
-        border: 1px solid #4a5568;
     }
 
     .stat-label {
         font-size: 12px;
-        color: #a0aec0;
+        color: #718096;
         margin-bottom: 5px;
         text-transform: uppercase;
     }
@@ -306,10 +312,10 @@
     .stat-value {
         font-size: 20px;
         font-weight: bold;
-        color: #e2e8f0;
+        color: #2d3748;
     }
 </style>
-
+```
 
 </head>
 <body>
@@ -318,7 +324,7 @@
             <h1>💰 Controle de Apostas</h1>
             <p class="subtitle">Pare, pense e reflita sobre seus gastos</p>
 
-
+```
         <div class="balance-section">
             <div class="balance-card negative">
                 <div class="balance-label">Depositado</div>
@@ -358,7 +364,7 @@
     </div>
 
     <div class="card">
-        <h2 style="font-size: 18px; margin-bottom: 15px; color: #e2e8f0;">📊 Estatísticas</h2>
+        <h2 style="font-size: 18px; margin-bottom: 15px; color: #2d3748;">📊 Estatísticas</h2>
         
         <div class="stats-grid">
             <div class="stat-item">
@@ -380,7 +386,7 @@
         </div>
 
         <div class="history">
-            <h3 style="font-size: 16px; margin: 20px 0 10px; color: #e2e8f0;">📝 Histórico Recente</h3>
+            <h3 style="font-size: 16px; margin: 20px 0 10px; color: #2d3748;">📝 Histórico Recente</h3>
             <div id="historyList"></div>
         </div>
     </div>
@@ -487,18 +493,15 @@
         
         if (balance < 0) {
             characterSection.classList.add('show');
-            characterSection.style.background = '#2d3748';
-            characterSection.style.borderLeftColor = '#f6ad55';
             const randomMsg = lossMessages[Math.floor(Math.random() * lossMessages.length)];
             characterMessage.textContent = randomMsg;
-            characterMessage.style.color = '#fbd38d';
         } else if (balance > 0) {
             characterSection.classList.add('show');
-            characterSection.style.background = '#2c5282';
-            characterSection.style.borderLeftColor = '#63b3ed';
+            characterSection.style.background = '#d1ecf1';
+            characterSection.style.borderLeftColor = '#17a2b8';
             const randomMsg = profitMessages[Math.floor(Math.random() * profitMessages.length)];
             characterMessage.textContent = randomMsg;
-            characterMessage.style.color = '#bee3f8';
+            characterMessage.style.color = '#0c5460';
         } else {
             characterSection.classList.remove('show');
         }
@@ -541,7 +544,7 @@
         `).join('');
 
         if (allTransactions.length === 0) {
-            historyList.innerHTML = '<p style="text-align: center; color: #a0aec0; padding: 20px;">Nenhuma transação ainda</p>';
+            historyList.innerHTML = '<p style="text-align: center; color: #718096; padding: 20px;">Nenhuma transação ainda</p>';
         }
     }
 
@@ -551,4 +554,3 @@
 
 </body>
 </html>
-
